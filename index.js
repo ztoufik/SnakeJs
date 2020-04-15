@@ -11,7 +11,7 @@ class Rectangle
         this.w=5;
     }
 
-    Draw(context)
+    draw(context)
     {
         context.strokeRect(this.x,this.y,this.w,this.h);
         context.fillStyle="rgb(255,255,255)";
@@ -24,7 +24,9 @@ class Board
     constructor(canvas)
     {
         this.canvas=canvas;
+        this.score=0;
         this.context=canvas.getContext("2d");
+        this.timestamp=200;
         this.context.save();
         this.context.translate(0,canvas.height);
         this.context.scale(1,-1);    
@@ -34,7 +36,7 @@ class Board
     {
         this._food=new Rectangle(100,100);
         this._snake=new Snake(this);
-
+        this.canvas.focus(null);
         this.canvas.addEventListener("keydown",(e)=>
         {
             switch(e.keyCode){
@@ -55,21 +57,38 @@ class Board
         this._food.draw(this.context);
     }
 
+    generaterandomfood()
+    {
+        const pxres=5;
+        const width=Math.floor(this.canvas.width/pxres)-this._food.w;
+        const height=Math.floor(this.canvas.height/pxres)-this._food.h;
+
+        let x=0;
+        let y=0;
+        do
+        {
+            x=Math.floor(Math.random()*width)*pxres;
+            y=Math.floor(Math.random()*height)*pxres;
+        }while(this._snake.body.some((e)=>{return e.x===x && e.y===y;}))
+
+        return new Rectangle(x,y);
+    }
+
     update()
     {
-        context.clearRect(0,0,canvas.width,canvas.height);
+        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-        if(this._food.rect.x===this._snake.body[0].x 
-            && this._food.rect.y===this._snake.body[0].y)
+        if(this._food.x===this._snake.body[0].x 
+            && this._food.y===this._snake.body[0].y)
             {
              console.log("food is eaten");
              this._snake.Eat();
-             this._food=new Rectangle(120,120);
+             this.score++;
+             this._food=this.generaterandomfood();
              }
-        else
-        {
-            this.draw();
-        }
+        this._snake.Move();
+    
+        this.draw();        
     }
 
 }
@@ -79,7 +98,6 @@ class Snake
     constructor(board)
     {
         this.keypressflag=true;
-        this.timestamp=200;
         this.board=board;
         this.body=[new Rectangle(5,0),new Rectangle(0,0)];
         this.direction="right";
@@ -90,7 +108,7 @@ class Snake
     Draw()
     {
         this.body.forEach((element,index) => {
-            element.Draw(this.board.context);
+            element.draw(this.board.context);
         });
     }
 
@@ -103,6 +121,8 @@ class Snake
 
     Move()
     {
+
+        this.ColitionDetection();
 
         if(this.direction!=="none")
         {
@@ -117,17 +137,18 @@ class Snake
             this.body[0].x+=this.xinc;
             this.body[0].y+=this.yinc;
 
-            if(this.body[0].x<0 || (this.body[0].x+this.body[0].w)>this.board.canvas.width 
-                || this.body[0].y<0 || (this.body[0].y+this.board.body[0].h)>this.board.canvas.height)
-            {
-                confirm("border colision");
-            }
+        }
+    }
 
-            if(this.body.slice(1).some((element)=>element.x===this.body[0].x && element.y===this.body[0].y))
-            {
-                //confirm("self colision ");
-                console.log("self coalision");
-            }
+    ColitionDetection() {
+        if (this.body[0].x < 0 || (this.body[0].x + this.body[0].w) > this.board.canvas.width
+            || this.body[0].y < 0 || (this.body[0].y + this.body[0].h) > this.board.canvas.height) {
+            //confirm("border colision");
+            console.log("border coalision");
+        }
+        if (this.body.slice(1).some((element) => element.x === this.body[0].x && element.y === this.body[0].y)) {
+            //confirm("self colision ");
+            console.log("self coalision");
         }
     }
 
@@ -197,13 +218,15 @@ class Snake
 }
 
 const canvas=document.getElementById("htmlcanvas");
-const context=canvas.getContext("2d");
+const score=document.getElementById("score");
+const board=new Board(canvas);
 
-
+board.register();
 
 window.setInterval(()=>{
-    
-},sn.timestamp);
+    board.update();
+    score.innerText=board.score.toString();
+},board.timestamp);
 
 
 
