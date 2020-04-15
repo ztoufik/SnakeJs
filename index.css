@@ -1,0 +1,34 @@
+body{
+    margin: 0;
+    padding:0;
+    background-color: grey;
+    height: 100vh;
+}
+
+h1{
+    margin-left: 40%;
+    margin-right: 50%;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    font-size: 50px;
+    height: 10vh;
+}
+
+.container{
+    margin: 10px;
+    padding: 10px;
+    border-style: double;
+    background-color: rgb(100, 100, 100);
+    height: 80vh;
+}
+
+h3{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size: 25px;
+}
+
+canvas{
+    background-color: green;
+    height: 80%;
+    width: 100%;
+}

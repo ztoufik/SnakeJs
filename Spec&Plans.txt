@@ -1,0 +1,11 @@
+Goal: browser Snake game in html canvas
+Specs:
+    Score in H3 header
+    grenn Board
+    when fail make sound and popup window
+how:
+    15min for design html/css skeleton
+    30min for moving objects inside canvas
+    1h for making snake object capable of basic intercation 
+    (moving in all direction, colision detection,growing )
+    30min for the food objects
