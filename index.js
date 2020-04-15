@@ -74,14 +74,24 @@ class Board
         return new Rectangle(x,y);
     }
 
+    ColitionDetection() {
+        if (this._snake.body[0].x < 0 || (this._snake.body[0].x + this._snake.body[0].w) > this._snake.board.canvas.width
+            || this._snake.body[0].y < 0 || (this._snake.body[0].y + this._snake.body[0].h) > this._snake.board.canvas.height
+            || this._snake.body.slice(1).some((element) => 
+            element.x === this._snake.body[0].x && element.y === this._snake.body[0].y))
+           {
+            alert("you failed");
+            console.log("self coalision");
+           }
+    }
+
     update()
     {
         this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
-
+        this.ColitionDetection();
         if(this._food.x===this._snake.body[0].x 
             && this._food.y===this._snake.body[0].y)
             {
-             console.log("food is eaten");
              this._snake.Eat();
              this.score++;
              this._food=this.generaterandomfood();
@@ -122,8 +132,6 @@ class Snake
     Move()
     {
 
-        this.ColitionDetection();
-
         if(this.direction!=="none")
         {
             this.keypressflag=false;
@@ -137,18 +145,6 @@ class Snake
             this.body[0].x+=this.xinc;
             this.body[0].y+=this.yinc;
 
-        }
-    }
-
-    ColitionDetection() {
-        if (this.body[0].x < 0 || (this.body[0].x + this.body[0].w) > this.board.canvas.width
-            || this.body[0].y < 0 || (this.body[0].y + this.body[0].h) > this.board.canvas.height) {
-            //confirm("border colision");
-            console.log("border coalision");
-        }
-        if (this.body.slice(1).some((element) => element.x === this.body[0].x && element.y === this.body[0].y)) {
-            //confirm("self colision ");
-            console.log("self coalision");
         }
     }
 
