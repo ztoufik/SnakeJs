@@ -94,6 +94,7 @@ class Board
             {
              this._snake.Eat();
              this.score++;
+             this.timestamp-=3;
              this._food=this.generaterandomfood();
              }
         this._snake.Move();
@@ -224,9 +225,17 @@ const board=new Board(canvas);
 
 board.register();
 
-window.setInterval(()=>{
+const GameUpdate=()=> {
+  //  window.clearInterval();
     board.update();
     score.innerText=board.score.toString();
+     window.setTimeout(()=>{
+     GameUpdate();
+     },board.timestamp);
+}
+
+window.setTimeout(()=>{
+    GameUpdate();
 },board.timestamp);
 
 
