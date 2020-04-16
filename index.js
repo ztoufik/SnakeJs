@@ -14,7 +14,7 @@ class Rectangle
     draw(context)
     {
         context.strokeRect(this.x,this.y,this.w,this.h);
-        context.fillStyle="rgb(255,255,255)";
+        context.fillStyle="rgb(0,190,0)";
         context.fillRect(this.x+1,this.y+1,this.w-1,this.h-1);
     }
 }

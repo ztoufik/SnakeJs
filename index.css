@@ -1,7 +1,6 @@
 body{
     margin: 0;
     padding:0;
-    background-color: grey;
     height: 100vh;
 }
 
@@ -18,7 +17,7 @@ h1{
     margin: 10px;
     padding: 10px;
     border-style: double;
-    background-color: rgb(100, 100, 100);
+    background-color: rgb(200, 200, 200);
     height: 80vh;
 }
 
@@ -28,7 +27,7 @@ h3{
 }
 
 canvas{
-    background-color: green;
+    background-color: rgb(5, 221, 5);
     height: 80%;
     width: 100%;
 }
