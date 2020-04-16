@@ -81,7 +81,7 @@ class Board
             element.x === this._snake.body[0].x && element.y === this._snake.body[0].y))
            {
             alert("you failed");
-            console.log("self coalision");
+           this.reset();
            }
     }
 
@@ -101,6 +101,11 @@ class Board
         this.draw();        
     }
 
+    reset()
+    {
+        this.score=0;
+        this._snake=new Snake(this);
+    }
 }
 
 class Snake
